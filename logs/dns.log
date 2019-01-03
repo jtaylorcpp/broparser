@@ -1,0 +1,13 @@
+#separator \x09
+#set_separator	,
+#empty_field	(empty)
+#unset_field	-
+#path	dns
+#open	2018-12-30-14-07-02
+#fields	ts	uid	id.orig_h	id.orig_p	id.resp_h	id.resp_p	proto	trans_id	rtt	query	qclass	qclass_name	qtype	qtype_name	rcode	rcode_name	AA	TC	RD	RA	Z	answers	TTLs	rejected
+#types	time	string	addr	port	addr	port	enum	count	interval	string	count	string	count	string	count	string	bool	bool	bool	bool	count	vector[string]	vector[interval]	bool
+1546196822.549603	CzjGiR3FA2X7RPZCMc	192.168.2.3	34761	192.168.2.1	53	udp	1139	0.007908	gmail.com	1	C_INTERNET	1	A	0	NOERROR	F	F	T	T	0	172.217.8.5	214.000000	F
+1546196822.605615	CoQIyQmalLgZ1aAHh	192.168.2.3	32874	192.168.2.1	53	udp	8436	0.007982	mail.google.com	1	C_INTERNET	1	A	0	NOERROR	F	F	T	T	0	googlemail.l.google.com,172.217.15.101	484687.000000,181.000000	F
+1546196825.943263	Cs2XNX2D9ALITUmdTk	192.168.2.3	59229	192.168.2.1	53	udp	15624	0.010341	lh3.googleusercontent.com	1	C_INTERNET	1	A	0	NOERROR	F	F	T	T	0	googlehosted.l.googleusercontent.com,172.217.15.97	52683.000000,180.000000	F
+1546196825.943486	CF2Pre2pmlR0zUKh88	192.168.2.3	44523	192.168.2.1	53	udp	29090	0.010118	www.gstatic.com	1	C_INTERNET	1	A	0	NOERROR	F	F	T	T	0	172.217.15.67	176.000000	F
+#close	2018-12-30-14-07-11
