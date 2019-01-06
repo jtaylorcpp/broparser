@@ -1,7 +1,6 @@
 package broparser
 
 import (
-	"fmt"
 	"log"
 	"regexp"
 	"strconv"
@@ -9,7 +8,6 @@ import (
 	"time"
 
 	"github.com/jinzhu/gorm"
-	"github.com/lib/pq"
 )
 
 /*
@@ -34,19 +32,23 @@ func init() {
 
 type DNSRecord struct {
 	gorm.Model
+	TimeStamp  time.Time
+	UID        string
+	ClientAddr string
+	ClientPort uint16
+	ServerAddr string
+	ServerPort uint16
+	Protocol   string
+	RoundTrip  float32
+	Query      string
+	Type       string
+	Answers    []DNSAnswer `gorm:"many2many:dns_record_answers"`
+}
 
-	TimeStamp   time.Time
-	UID         string
-	ClientAddr  string
-	ClientPort  uint16
-	ServerAddr  string
-	ServerPort  uint16
-	Protocol    string
-	RoundTrip   float32
-	Query       string
-	Type        string
-	Answers     map[string]uint32 `gorm:"-"` // ignores it parsed this way
-	AnswerArray pq.StringArray    `gorm:"type:varchar(255)[]"`
+type DNSAnswer struct {
+	gorm.Model
+	Address string
+	TTL     uint32
 }
 
 func ParseDNS(logline string) DNSRecord {
@@ -122,7 +124,7 @@ func ParseDNS(logline string) DNSRecord {
 				case 22:
 					// answers
 					// TTLS per answer are idx 24
-					returnRecord.Answers = map[string]uint32{}
+					returnRecord.Answers = []DNSAnswer{}
 					addresses := strings.Split(elem, ",")
 					ttls := strings.Split(majormatches[24], ",")
 					//log.Printf("parsing answers <%v> and ttls<%v>\n", addresses, ttls)
@@ -132,9 +134,7 @@ func ParseDNS(logline string) DNSRecord {
 							panic(err)
 						}
 						ttl64 := int64(ttlf64)
-						returnRecord.Answers[addr] = uint32(ttl64)
-						returnRecord.AnswerArray = append(returnRecord.AnswerArray,
-							addr, fmt.Sprintf("%d", ttl64))
+						returnRecord.Answers = append(returnRecord.Answers, DNSAnswer{Address: addr, TTL: uint32(ttl64)})
 					}
 
 				}

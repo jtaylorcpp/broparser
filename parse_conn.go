@@ -26,7 +26,6 @@ func init() {
 
 type ConnRecord struct {
 	gorm.Model
-
 	TimeStamp        time.Time
 	UID              string
 	ClientAddr       string
